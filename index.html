@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 	    <title>Trivia</title>
 
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 		<link rel="stylesheet" href="assets/css/style.css">
 
@@ -18,12 +19,14 @@
 
 	<div id="wrapper">
 		
-		<h2>Trivia</h2>
+		<h2>Sports Trivia</h2>
 		
+		<div id="timer"> </div>
 		<div id="question"></div>
 		<div id="answers"></div>
-
-		<button id="start-button">Start</button>
+		<div id="image-div"></div>
+		<button type="button" class="btn btn-primary" id="start-button" onclick="thirtySeconds();">Start</button>
+		
 
 	</div>
 
