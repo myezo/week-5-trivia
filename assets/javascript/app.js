@@ -111,10 +111,10 @@ function runThirty(){
 
 function questionTimer(){
 	count--;
-	$("#fiveSec").html("Time remaining: " + count);
+	$("#timer").html("Time remaining: " + count);
 	if(count === 0){
 		clearInterval(counter);
-		//clearStuff();
+		clearStuff();
 	}
 }
 
@@ -128,17 +128,16 @@ function fiveSeconds(){
 	five--;
 	$("#fiveSec").html("Next question in: " + five);
 	if(five === 0){
-		console.log("Zero is the unmber bitcvh");
+		clearInterval(counter);
+		secondQuestion();
 	}
 }
 
 
 function stop() {
     clearInterval(number);
-    $('#timer').html(" ");
+   
 }
-
-
 
 
 
