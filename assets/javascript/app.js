@@ -136,8 +136,10 @@ function fiveSeconds(){
 
 function stop() {
     clearInterval(number);
-   
+    $('#timer').html(" ");
 }
+
+
 
 
 
