@@ -21,79 +21,125 @@ var questions = [
 }];
 
 
-var questionCounter = 0;
 var currentQuestion = 0;
 var numChoices = questions[currentQuestion].teams.length;
 var answers = questions[currentQuestion].teams;
 var correct = 0;
 var incorrect = 0;
-var thirty = 30;
+count = 7;
+var counter;
 var five = 5;
 
 
-$('#start-button').on('click', function(){
-	//thirtySeconds();
-	//console.log(questions[0].teams[0]);
-	
+
+function startGame(){
+	$('#start-button').on('click', function(){
+		displayQuestion();
+		runThirty();
+	});
+}
+
+
+startGame();
+
+
+function displayQuestion(){
 	$("#start-button").remove();
 	$('#question').append(questions[currentQuestion].question);
-	
 
 	for(var i = 0; i < numChoices; i++){
 		console.log(answers[i]);
-		var footballDiv = $('<p>');
-		//footballDiv.attr('data-team', answers[i]);
-		footballDiv.text(answers[i]);
-		$('#answers').append(footballDiv);
+		var answersDiv = $('<p>');
+		answersDiv.text(answers[i]);
+		$('#answers').append(answersDiv);
 
-		/*$(footballDiv).hover(function() {
-  			$(this).css("background-color","red");
-		});*/
-
-			$(footballDiv).click(function(){
+			$(answersDiv).click(function(){
 				console.log(this.textContent);
 				if (this.textContent == questions[currentQuestion].correct){
-		          	$('#question').empty();
-		          	$('#answers').empty();
-		          	$('#start-button').empty();
+
+					$('#timer').remove();
+					runFiveSec();
+					$('#question').empty();
+					$('#answers').empty();
+					$('#start-button').empty();
 		          	$('#question').text("Correct!");
 					$('#answers').html("<img src='http://extras.mnginteractive.com/live/media/site36/2012/1230/20121230_062534_demaryius-thomas-broncos.gif'>");
-
+					correct++;
 				}else{
-					alert("no");
+					stop();
+					$('#timer').remove();
+					runFiveSec();
+					$('#question').empty();
+		          	$('#answers').empty();
+		          	$('#start-button').empty();
+		          	$('#question').text("Incorrect! The Denver Broncos Won!");
+					$('#answers').html("<img src='http://extras.mnginteractive.com/live/media/site36/2012/1230/20121230_062534_demaryius-thomas-broncos.gif'>");
+					incorrect++;
 				}
+			});
+	}
+}
 
-	    	});
-	}	
 
-});
+function secondQuestion(){
+	currentQuestion = 1;
+	count = 7;
+	runThirty();
+	$('#question').append(questions[currentQuestion].question);
+
+		for(var i = 0; i < numChoices; i++){
+		console.log(answers[i]);
+		var answersDiv = $('<p>');
+		answersDiv.text(answers[i]);
+		$('#answers').append(answersDiv);
+		}
+}
+
+
+
+function clearStuff(){
+	$('#question').text("Ran out of time!");
+	$('#answers').html("<img src='http://extras.mnginteractive.com/live/media/site36/2012/1230/20121230_062534_demaryius-thomas-broncos.gif'>");
+	incorrect++;
+}
+
+
+function runThirty(){
+	counter = setInterval(questionTimer, 1000);
+}
+
+
+function questionTimer(){
+	count--;
+	$("#fiveSec").html("Time remaining: " + count);
+	if(count === 0){
+		clearInterval(counter);
+		//clearStuff();
+	}
+}
+
+
+function runFiveSec(){
+	counter = setInterval(fiveSeconds, 1000);
+}
 
 
 function fiveSeconds(){
-	var fiveCounter = setInterval(fiveSeconds, 1000);
-	//setTimeout(fiveSeconds, 1000 * 5);
-	five -= 1;
-	console.log(five);
-	//$('#timer').html(five);
-	if(five == 0){
-        clearInterval(fiveCounter);
-    }
+	five--;
+	$("#fiveSec").html("Next question in: " + five);
+	if(five === 0){
+		console.log("Zero is the unmber bitcvh");
+	}
 }
 
 
-function thirtySeconds(){
-	var thirtyCounter = setInterval(thirtySeconds, 1000);
-	//setTimeout(thirtySeconds, 1000 * 30);
-	thirty -= 1;
-	console.log(thirty);
-	$('#timer').html(thirty);
-	if(thirty == 0){
-        clearInterval(thirtyCounter);
-    }
+function stop() {
+    clearInterval(number);
+    $('#timer').html(" ");
 }
+
+
+
 
 
 });
-
-
-
