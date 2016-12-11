@@ -6,21 +6,24 @@ var questions = [
    question : "What football team won the Super Bowl in 2016?",
    teams : ["Broncos", "Panthers", "Patriots", "Giants"],
    correct : "Broncos",
-   image: "<img src='http://extras.mnginteractive.com/live/media/site36/2012/1230/20121230_062534_demaryius-thomas-broncos.gif'>"
+   image: "<img src='http://extras.mnginteractive.com/live/media/site36/2012/1230/20121230_062534_demaryius-thomas-broncos.gif'>",
+   correctAnswer: "The Denver Broncos won the Super Bowl!"
 },
 
 {
 	question : "What baseball team won the World Series in 2016?", 
 	teams : ["Dodgers", "Yankees", "Cubs", "Cardinals"],
 	correct : "Cubs",
-	image: "<img src='https://media.giphy.com/media/l0MYCYe23pOlaK21G/giphy.gif'>"
+	image: "<img src='https://media.giphy.com/media/l0MYCYe23pOlaK21G/giphy.gif'>",
+	correctAnswer: "The Chicago Cubs won the World Series!"
 },
 
 {
 	question : "What hockey team won the Stanely Cup in 2016?",
 	teams : ["Rangers", "Penguins", "Sharks", "Blackhawks"],
 	correct : "Penguins",
-	image: "<img src='http://2.cdn.nhle.com/penguins/images/upload/2015/02/malkin2.19.15web.gif'>"
+	image: "<img src='http://2.cdn.nhle.com/penguins/images/upload/2015/02/malkin2.19.15web.gif'>",
+	correctAnswer: "The Pittsburgh Penguins won the Stanley Cup!"
 }];
 
 
@@ -30,7 +33,7 @@ var currentTeams;
 
 var correct = 0;
 var incorrect = 0;
-var count = 7;
+var count = 30;
 var counter;
 var five = 5;
 var answersDiv;
@@ -62,28 +65,36 @@ function displayQuestion(){
 $(document).on('click', '#answers p', function(){
 	console.log(this.textContent);
 		if (this.textContent == questions[currentQuestion].correct){
-			
+			clearInterval(counter);
+			counter = 30;
 			runFiveSec();
 			$('#timer').empty();
 			$('#question').empty();
 			$('#answers').empty();
 			$('#start-button').empty();
 		    $('#question').text("Correct!");
+		    $('#correct-answer').append(questions[currentQuestion].correctAnswer);
 			$('#answers').html(questions[currentQuestion].image);
 			correct++;
 			}else{
-				
 				runFiveSec();
+				clearInterval(counter);
+				counter = 30;
 				$('#timer').empty();
 				$('#question').empty();
 		        $('#answers').empty();
 		        $('#start-button').empty();
 		        $('#question').text("Incorrect!");
+		        $('#correct-answer').append(questions[currentQuestion].correctAnswer);
 				$('#answers').html(questions[currentQuestion].image);
 				incorrect++;
 				}
 });
 
+
+function displayResults(){
+	$('#timer').text("Correct Answers: " + correct);
+}
 
 
 function clearStuff(){
@@ -91,6 +102,7 @@ function clearStuff(){
 	$('#fiveSec').empty();
 	$('#answers').empty();
 	$('#question').empty();
+	$('#correct-answer').empty();
 }
 
 
@@ -104,7 +116,7 @@ function questionTimer(){
 	$("#timer").html("Time remaining: " + count);
 	if(count === 0){
 		clearInterval(counter);
-		count = 7;
+		count = 30;
 	}
 }
 
