@@ -7,7 +7,7 @@ var questions = [
    teams : ["Broncos", "Panthers", "Patriots", "Giants"],
    correct : "Broncos",
    image: "<img src='http://extras.mnginteractive.com/live/media/site36/2012/1230/20121230_062534_demaryius-thomas-broncos.gif'>",
-   correctAnswer: "The Denver Broncos won the Super Bowl!"
+   correctAnswers: "The Denver Broncos won the Super Bowl!"
 },
 
 {
@@ -15,7 +15,7 @@ var questions = [
 	teams : ["Dodgers", "Yankees", "Cubs", "Cardinals"],
 	correct : "Cubs",
 	image: "<img src='https://media.giphy.com/media/l0MYCYe23pOlaK21G/giphy.gif'>",
-	correctAnswer: "The Chicago Cubs won the World Series!"
+	correctAnswers: "The Chicago Cubs won the World Series!"
 },
 
 {
@@ -23,38 +23,49 @@ var questions = [
 	teams : ["Rangers", "Penguins", "Sharks", "Blackhawks"],
 	correct : "Penguins",
 	image: "<img src='http://2.cdn.nhle.com/penguins/images/upload/2015/02/malkin2.19.15web.gif'>",
-	correctAnswer: "The Pittsburgh Penguins won the Stanley Cup!"
+	correctAnswers: "The Pittsburgh Penguins won the Stanley Cup!"
+},
+
+{
+	question : "Which basketball team won the NBA Championship in 2016?",
+	teams : ["Warriors", "Spurs", "Cavaliers", "Raptors"],
+	correct : "Cavaliers",
+	image: "<img src='https://67.media.tumblr.com/3cd636d3ecce901a48fb2cbc69440519/tumblr_nee7i0IAHm1s3gys4o1_400.gif'>",
+	correctAnswers: "The Clevland Cavaliers won the NBA Championship!"
 }];
 
 
 var currentQuestion = 0;
 var currentTeamsLength;
 var currentTeams;
-
 var correct = 0;
 var incorrect = 0;
+var unanswered = 0;
 var count = 30;
 var counter;
 var five = 5;
 var answersDiv;
 
 
+
 $('#start-button').on('click', function(){
 	displayQuestion();
+	$(this).remove();
 });
 
 
-
 function displayQuestion(){
+	
 	currentTeamsLength = questions[currentQuestion].teams.length;
 	currentTeams = questions[currentQuestion].teams;
+	
 	runThirty();
-	$("#start-button").remove();
+	
 	$('#question').append(questions[currentQuestion].question);
 
 	for(var i = 0; i < currentTeamsLength; i++){
 		console.log(currentTeams[i]);
-		var answersDiv = $('<p>');
+		answersDiv = $('<p>');
 		answersDiv.text(currentTeams[i]);
 		$('#answers').append(answersDiv);
 	}
@@ -64,45 +75,41 @@ function displayQuestion(){
 
 $(document).on('click', '#answers p', function(){
 	console.log(this.textContent);
-		if (this.textContent == questions[currentQuestion].correct){
-			clearInterval(counter);
-			counter = 30;
-			runFiveSec();
-			$('#timer').empty();
-			$('#question').empty();
-			$('#answers').empty();
-			$('#start-button').empty();
-		    $('#question').text("Correct!");
-		    $('#correct-answer').append(questions[currentQuestion].correctAnswer);
-			$('#answers').html(questions[currentQuestion].image);
-			correct++;
-			}else{
-				runFiveSec();
-				clearInterval(counter);
-				counter = 30;
-				$('#timer').empty();
-				$('#question').empty();
-		        $('#answers').empty();
-		        $('#start-button').empty();
-		        $('#question').text("Incorrect!");
-		        $('#correct-answer').append(questions[currentQuestion].correctAnswer);
-				$('#answers').html(questions[currentQuestion].image);
-				incorrect++;
-				}
+
+	clearInterval(counter);
+	count = 30;
+	runFiveSec();
+	$('#timer').empty();
+	$('#question').empty();
+	$('#answers').empty();
+	$('#start-button').empty();
+	$('#correct-answer').html(questions[currentQuestion].correctAnswers);
+	$('#answers').html(questions[currentQuestion].image);
+
+	if (this.textContent == questions[currentQuestion].correct){
+	  $('#question').text("Correct!");
+		correct++;
+	}else{
+	  $('#question').text("Incorrect!");
+		incorrect++;
+	}
 });
 
-
-function displayResults(){
-	$('#timer').text("Correct Answers: " + correct);
-}
 
 
 function clearStuff(){
 	$('#timer').empty();
 	$('#fiveSec').empty();
 	$('#answers').empty();
-	$('#question').empty();
 	$('#correct-answer').empty();
+	$('#question').empty();
+}
+
+
+
+function outOfTime(){
+	$('#answer').text("You ran out of time!");
+	unanswered++;
 }
 
 
@@ -117,6 +124,7 @@ function questionTimer(){
 	if(count === 0){
 		clearInterval(counter);
 		count = 30;
+		outOfTime();
 	}
 }
 
@@ -135,8 +143,21 @@ function fiveSeconds(){
 		clearStuff();
 		currentQuestion++;
 		five = 5;
-		displayQuestion();
+		if(currentQuestion < questions.length){
+			displayQuestion();
+		}else{
+			displayResults();
+		}		
 	}
+}
+
+
+function displayResults(){
+	$('#timer').html("Correct answers: " + correct);
+	$('#fiveSec').html("Incorrect answers: " + incorrect);
+	$('#question').html("Unaswered: " + unanswered);
+	$('#correct-answer').empty();
+	$('#answers').append('<input type="button" class="btn btn-primary" id="play-again" value="Play Again">');
 }
 
 
