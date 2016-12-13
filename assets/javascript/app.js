@@ -47,8 +47,7 @@ var five = 5;
 var answersDiv;
 
 
-$('#start-button').on('click', function(){
-		
+$(document).on('click', '#start-button', function(){	
 	currentQuestion = 0;
 	correct = 0;
 	incorrect = 0;
@@ -56,6 +55,9 @@ $('#start-button').on('click', function(){
 	count = 30;
 	five = 5;
 	currentTeamsLength = 0;
+	$('#timer').empty();
+	$('#fiveSec').empty();
+	$('#question').empty();
 	displayQuestion();
 	$(this).remove();
 });
@@ -168,7 +170,7 @@ function displayResults(){
 	$('#fiveSec').html("Incorrect answers: " + incorrect);
 	$('#question').html("Unaswered: " + unanswered);
 	$('#correct-answer').empty();
-	$('#answers').append('<input type="button" class="btn btn-primary" id="#start-button" value="Play Again">');
+	$('#answers').append('<input type="button" class="btn btn-primary" id="start-button" value="Play Again">');
 }
 
 
