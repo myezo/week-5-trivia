@@ -47,8 +47,15 @@ var five = 5;
 var answersDiv;
 
 
-
 $('#start-button').on('click', function(){
+		
+	currentQuestion = 0;
+	correct = 0;
+	incorrect = 0;
+	unanswered = 0;
+	count = 30;
+	five = 5;
+	currentTeamsLength = 0;
 	displayQuestion();
 	$(this).remove();
 });
@@ -108,8 +115,12 @@ function clearStuff(){
 
 
 function outOfTime(){
-	$('#answer').text("You ran out of time!");
+	$('#answers').text("You ran out of time!");
+	$('#question').text("Incorrect!");
+	$('#correct-answer').html(questions[currentQuestion].correctAnswers);
+	$('#answers').html(questions[currentQuestion].image);
 	unanswered++;
+	runFiveSec();
 }
 
 
@@ -157,9 +168,8 @@ function displayResults(){
 	$('#fiveSec').html("Incorrect answers: " + incorrect);
 	$('#question').html("Unaswered: " + unanswered);
 	$('#correct-answer').empty();
-	$('#answers').append('<input type="button" class="btn btn-primary" id="play-again" value="Play Again">');
+	$('#answers').append('<input type="button" class="btn btn-primary" id="#start-button" value="Play Again">');
 }
-
 
 
 
